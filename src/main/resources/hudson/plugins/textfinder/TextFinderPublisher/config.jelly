@@ -12,6 +12,9 @@
   <f:entry field="succeedIfFound" title="${%Succeed if found}">
     <f:checkbox/>
   </f:entry>
+  <f:entry field="onlySucceedIfFound" title="${%Only succeed if found}">
+    <f:checkbox/>
+  </f:entry>
   <f:entry field="unstableIfFound" title="${%Unstable if found}">
     <f:checkbox/>
   </f:entry>

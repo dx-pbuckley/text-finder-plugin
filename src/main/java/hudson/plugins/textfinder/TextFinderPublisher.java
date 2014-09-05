@@ -44,6 +44,7 @@ public class TextFinderPublisher extends Recorder implements Serializable {
     public final String fileSet;
     public final String regexp;
     public final boolean succeedIfFound;
+    public final boolean onlySucceedIfFound;
     public final boolean unstableIfFound;
     /**
      * True to also scan the whole console output
@@ -51,10 +52,11 @@ public class TextFinderPublisher extends Recorder implements Serializable {
     public final boolean alsoCheckConsoleOutput;
 
     @DataBoundConstructor
-    public TextFinderPublisher(String fileSet, String regexp, boolean succeedIfFound, boolean unstableIfFound, boolean alsoCheckConsoleOutput) {
+    public TextFinderPublisher(String fileSet, String regexp, boolean succeedIfFound, boolean onlySucceedIfFound, boolean unstableIfFound, boolean alsoCheckConsoleOutput) {
         this.fileSet = Util.fixEmpty(fileSet.trim());
         this.regexp = regexp;
         this.succeedIfFound = succeedIfFound;
+        this.onlySucceedIfFound = onlySucceedIfFound;
         this.unstableIfFound = unstableIfFound;
         this.alsoCheckConsoleOutput = alsoCheckConsoleOutput;
         
@@ -145,6 +147,8 @@ public class TextFinderPublisher extends Recorder implements Serializable {
             }
 
             if (foundText != succeedIfFound)
+                build.setResult(unstableIfFound ? Result.UNSTABLE : Result.FAILURE);
+            if (foundText != onlySucceedIfFound)
                 build.setResult(unstableIfFound ? Result.UNSTABLE : Result.FAILURE);
         } catch (AbortException e) {
             // no test file found
